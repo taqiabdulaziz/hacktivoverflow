@@ -2,27 +2,27 @@ var mongoose = require(`mongoose`)
 var Schema = mongoose.Schema
 
 var AnswerSchema = new Schema({
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    },
     title: {
         type: String,
         required: true
     },
-    description: {
-        type: String,
-        required: true
+    question: {
+        type: Schema.Types.ObjectId,
+        ref: `Question`
     },
     upvotes: [{
-        type: Number,
-        userId: {
-            type: Schema.Types.ObjectId,
-            ref: 'User'
-        }
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        default: []
     }],
     downvotes: [{
-        type: Number,
-        userId: {
-            type: Schema.Types.ObjectId,
-            ref: 'User'
-        }
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        default: []
     }],
 })
 

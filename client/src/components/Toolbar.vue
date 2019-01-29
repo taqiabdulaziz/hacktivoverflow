@@ -1,6 +1,6 @@
 <template>
   <v-toolbar>
-    <v-toolbar-title>Hackoverflow</v-toolbar-title>
+    <v-toolbar-title @click="toHome" class="toolbartitle">Hacktivlow</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items class="hidden-sm-and-down">
       <v-btn flat @click="logout">Logout</v-btn>
@@ -11,15 +11,23 @@
 <script>
 export default {
   data() {
-    return {
-      
-    }
+    return {};
   },
   methods: {
     logout() {
-      this.$store.dispatch(`logout`)
-      this.$router.replace(`/login`)
+      this.$store.dispatch(`logout`);
+      this.$router.replace(`/login`);
+    },
+    toHome() {
+      this.$router.replace(`/`);
     }
-  },
-}
+  }
+};
 </script>
+
+<style>
+.toolbartitle:hover {
+  cursor: pointer;
+}
+</style>
+
