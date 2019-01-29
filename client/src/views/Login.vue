@@ -71,6 +71,11 @@ export default {
     register() {
       this.$router.replace(`/register`);
     }
+  },
+  beforeCreate() {
+    if (localStorage.token) {
+      this.$router.replace(`/`)
+    }
   }
 };
 </script>

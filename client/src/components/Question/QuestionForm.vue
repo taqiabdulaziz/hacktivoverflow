@@ -9,7 +9,7 @@
           <v-toolbar-title>Ask Question</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
-            <v-btn dark flat @click="dialog = false">Save</v-btn>
+            <v-btn dark flat @click="createQuestion">Save</v-btn>
           </v-toolbar-items>
         </v-toolbar>
         <v-container grid-list-xs>
@@ -29,13 +29,12 @@
             </v-flex>
             <v-flex xs6>
               <v-form ref="form" v-model="valid" lazy-validation>
-                <v-text-field v-model="title" label="Title" required></v-text-field>
-
+                <v-text-field v-model="formData.title" label="Title" required></v-text-field>
                 <v-textarea
                 height="50vh"
                   outline
                   label="Description"
-                  value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
+                  v-model="formData.description"
                 ></v-textarea>
               </v-form>
             </v-flex>
@@ -53,8 +52,22 @@ export default {
     return {
       notifications: false,
       sound: true,
-      widgets: false
+      widgets: false,
+      formData: {
+        title: '',
+        description: ''
+      },
+      dialog: false
     };
+  },
+  methods: {
+    createQuestion() {
+      this.$store.dispatch(`addQuestion`, {
+        title: this.formData.title,
+        description: this.formData.description
+      })
+      this.dialog = false
+    }
   },
   watch: {
     dialog: function() {

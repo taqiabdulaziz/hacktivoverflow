@@ -33,6 +33,9 @@ export default new Vuex.Store({
           Vue.set(state.questions, index, data.result)
         }
       })
+    },
+    addQuestion(state, data) {
+      state.questions.push(data)
     }
   },
   actions: {
@@ -87,6 +90,21 @@ export default new Vuex.Store({
           console.log(err);
 
         });
+    },
+    addQuestion(context, data) {
+      a.post(`/questions`, {
+        title: data.title,
+        description: data.description
+      }, {
+        headers: {
+          token: localStorage.token
+        }
+      }).then((result) => {
+        context.commit(`addQuestion`, result.data)
+      }).catch((err) => {
+        console.log(err);
+        
+      });
     }
   }
 })

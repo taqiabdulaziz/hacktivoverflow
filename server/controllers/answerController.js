@@ -18,7 +18,7 @@ module.exports = {
     upvote: function (req, res) {
         Answer.findOne({
             _id: req.params.answerId
-        }).then((result) => {
+        }).populate('userId').then((result) => {
             var alreadyUpVote = result.upvotes.indexOf(req.body.userId) == -1 ? false : true
             var alreadyDownVote = result.downvotes.indexOf(req.body.userId) == -1 ? false : true
 
@@ -43,7 +43,7 @@ module.exports = {
     downvote: function (req, res) {
         Answer.findOne({
             _id: req.params.answerId
-        }).then((result) => {
+        }).populate('userId').then((result) => {
             var alreadyUpVote = result.upvotes.indexOf(req.body.userId) == -1 ? false : true
             var alreadyDownVote = result.downvotes.indexOf(req.body.userId) == -1 ? false : true
 

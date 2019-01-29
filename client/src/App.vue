@@ -21,17 +21,7 @@ export default {
     };
   },
   beforeCreate() {
-    a.get(`/questions`, {
-      headers: {
-        token: localStorage.token
-      }
-    })
-      .then(result => {
-        this.$store.dispatch("fetchQuestion", result.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    
   },
 };
 </script>

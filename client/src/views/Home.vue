@@ -108,22 +108,26 @@ export default {
       this.questionFormDialog = false;
     },
     openQuestion(id, index) {
-      this.$router.replace(`/question/${id}/${index}`)
-      
+      this.$router.replace(`/question/${id}/${index}`);
     }
   },
   created() {
-    // a.get(`/questions`, {
-    //   headers: {
-    //     token: localStorage.token
-    //   }
-    // })
-    //   .then(result => {
-    //     this.$store.dispatch("fetchQuestion", result.data);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+    a.get(`/questions`, {
+      headers: {
+        token: localStorage.token
+      }
+    })
+      .then(result => {
+        this.$store.dispatch("fetchQuestion", result.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  },
+  beforeCreate() {
+    if (!localStorage.token) {
+      this.$router.replace(`/login`);
+    }
   }
 };
 </script>

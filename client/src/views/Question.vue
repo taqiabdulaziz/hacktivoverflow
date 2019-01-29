@@ -2,7 +2,8 @@
   <div>
     <Toolbar/>
     <v-container grid-list-xs>
-      <v-layout row wrap>
+      <v-layout column wrap>
+        <h2>Question</h2>
         <v-card width="100%">
           <v-container grid-list-xs>
             <v-layout row wrap style="padding: 5vh">
@@ -27,29 +28,33 @@
           </v-container>
         </v-card>
         <br>
-        <hr>
-        <v-card width="100%">
-          <v-container grid-list-xs>
-            <v-layout row wrap style="padding: 5vh">
-              <v-flex>
-                <v-layout column wrap>
-                  <v-btn flat icon color="blue lighten-2">
-                    <v-icon @click="upvoteQuestion">thumb_up</v-icon>
-                  </v-btn>
-                  <h1
-                    style="margin-left: 19px"
-                  >{{(questionData.upvotes.length)-(questionData.downvotes.length)}}</h1>
-                  <v-btn flat icon color="red lighten-2">
-                    <v-icon @click="downvoteQuestion">thumb_down</v-icon>
-                  </v-btn>
-                </v-layout>
+
+        <v-layout column wrap style="margin: 0vh">
+          <v-card
+            v-for="(answer, index) in answerData"
+            :key="index"
+            style="margin: 2vh; padding: 2vh; width: 70%"
+          >
+            <v-layout row wrap align-center>
+              <v-flex text-sm-center>
+                <v-btn flat icon color="lighten-2">
+                  <v-icon @click="upvoteAnswer(answer._id, index)">thumb_up</v-icon>
+                </v-btn>
+                <h3>{{ (answer.upvotes.length) - (answer.downvotes.length) }}</h3>
+                <v-btn flat icon color="lighten-2">
+                  <v-icon @click="downvoteAnswer(answer._id, index)">thumb_down</v-icon>
+                </v-btn>
               </v-flex>
-              <v-flex xs11>
-                <h1 class="font-weight-regular">{{questionData.title}}</h1>
-                <p style="margin-top: 5vh">{{questionData.description}}</p>
-              </v-flex>
+              <v-flex xs10>{{answer.title}} | {{answer.userId.email}}</v-flex>
             </v-layout>
-          </v-container>
+          </v-card>
+        </v-layout>
+
+        <v-card style="margin: 2vh; width: 70%; padding: 5vh">
+          <v-form ref="form" v-model="valid" lazy-validation>
+            <v-textarea outline name="input-7-4" v-model="replyForm"></v-textarea>
+            <v-btn :disabled="!valid" color="success" @click="reply">Reply</v-btn>
+          </v-form>
         </v-card>
       </v-layout>
     </v-container>
@@ -57,6 +62,7 @@
 </template>
 
 <script>
+import Vue from "vue";
 import Toolbar from "../components/Toolbar";
 import a from "../helpers/axios";
 export default {
@@ -65,7 +71,8 @@ export default {
   },
   data() {
     return {
-      answerData: []
+      answerData: [],
+      replyForm: ''
     };
   },
   computed: {
@@ -80,8 +87,61 @@ export default {
     downvoteQuestion() {
       this.$store.dispatch(`downvoteQuestion`, this.questionData._id);
     },
-    upvoteAnswer(id) {},
-    downvoteAnswer(id) {}
+    upvoteAnswer(id, index) {
+      a.post(
+        `/answers/${id}/upvote`,
+        {
+          userId: localStorage.id
+        },
+        {
+          headers: {
+            token: localStorage.token
+          }
+        }
+      )
+        .then(result => {
+          Vue.set(this.answerData, index, result.data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    downvoteAnswer(id, index) {
+      a.post(
+        `/answers/${id}/downvote`,
+        {
+          userId: localStorage.id
+        },
+        {
+          headers: {
+            token: localStorage.token
+          }
+        }
+      )
+        .then(result => {
+          Vue.set(this.answerData, index, result.data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    reply() {
+      a.post(`/answers`, {
+        title: this.replyForm,
+        question: this.$route.params.id,
+        userId:localStorage.id
+      }, {
+        headers : {
+          token: localStorage.token
+        }
+      }).then((result) => {
+        this.answerData.push(result.data)
+        this.replyForm = ''
+      }).catch((err) => {
+        console.log(err);
+        
+      });
+    }
   },
   beforeCreate() {
     a.get(`/questions`, {
@@ -95,16 +155,16 @@ export default {
       .catch(err => {
         console.log(err);
       });
-    
+
     a.get(`/questions/answer/${this.$route.params.id}`, {
-        headers : {
-            token: localStorage.token
-        }
-    }).then((result) => {
-        this.answerData = result.data
-    }).catch((err) => {
-        
-    });
+      headers: {
+        token: localStorage.token
+      }
+    })
+      .then(result => {
+        this.answerData = result.data;
+      })
+      .catch(err => {});
   }
 };
 </script>
