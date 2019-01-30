@@ -58,7 +58,7 @@ export default {
             this.fail = false
             this.success = true
             this.$store.dispatch('login', result.data)
-            this.$router.replace(`/`)
+            this.$router.replace(`/discussion`)
             for (const key in result.data) {
               localStorage[key] = result.data[key]
             }
@@ -74,7 +74,7 @@ export default {
   },
   beforeCreate() {
     if (localStorage.token) {
-      this.$router.replace(`/`)
+      this.$router.replace(`/discussion`)
     }
   }
 };

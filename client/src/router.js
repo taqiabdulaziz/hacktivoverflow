@@ -12,7 +12,13 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
+      children: [
+        {
+          path: `/discussion`,
+          component: () => import(`./views/Home/Discussion.vue`)
+        }
+      ]
     },
     {
       path: '/about',

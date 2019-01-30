@@ -27,13 +27,13 @@
             </v-layout>
           </v-container>
         </v-card>
-        <br>
-
+        
+<h3 style="margin-bottom: 2vh; margin-top: 2vh">Replies</h3>
         <v-layout column wrap style="margin: 0vh">
           <v-card
             v-for="(answer, index) in answerData"
             :key="index"
-            style="margin: 2vh; padding: 2vh; width: 70%"
+            style="padding: 2vh; width: 70%"
           >
             <v-layout row wrap align-center>
               <v-flex text-sm-center>
@@ -50,10 +50,11 @@
           </v-card>
         </v-layout>
 
-        <v-card style="margin: 2vh; width: 70%; padding: 5vh">
+        <h3 style="margin-bottom: 2vh">Reply</h3>
+        <v-card style="width: 70%; padding: 5vh">
           <v-form ref="form" v-model="valid" lazy-validation>
             <v-textarea outline name="input-7-4" v-model="replyForm"></v-textarea>
-            <v-btn :disabled="!valid" color="success" @click="reply">Reply</v-btn>
+            <v-btn :disabled="!valid" color="warning" @click="reply">Reply</v-btn>
           </v-form>
         </v-card>
       </v-layout>
