@@ -7,7 +7,8 @@ import a from './helpers/axios';
 export default new Vuex.Store({
   state: {
     dataLogin: null,
-    questions: []
+    questions: [],
+    myAnswers: []
   },
   mutations: {
     login(state, data) {
@@ -19,6 +20,9 @@ export default new Vuex.Store({
     },
     questions(state, questions) {
       state.questions = questions
+    },
+    myanswer(state, answers) {
+      state.myAnswers = answers
     },
     upvoteQuestion(state, data) {
       state.questions.forEach((element, index) => {
@@ -36,6 +40,27 @@ export default new Vuex.Store({
     },
     addQuestion(state, data) {
       state.questions.push(data)
+    },
+    deleteQuestion(state, questionId) {
+      state.questions.forEach((element, index) => {
+        if (element._id == questionId) {
+          Vue.delete(state.questions, index)
+        }
+      })
+    },
+    editQuestion(state, data) {
+      state.questions.forEach((e, index) => {
+        if (e._id == data._id) {
+          Vue.set(state.questions, index, data)
+        }
+      })
+    },
+    editAnswer(state, answer) {
+      state.myAnswers.forEach((e, index) => {
+        if (e._id == answer._id) {
+          Vue.set(state.myAnswers, index, answer)
+        }
+      })
     }
   },
   actions: {
@@ -50,6 +75,9 @@ export default new Vuex.Store({
     fetchQuestion(context, data) {
       context.commit(`questions`, data)
 
+    },
+    fetchMyAnswer(context, data) {
+      context.commit(`myanswer`, data)
     },
     upvoteQuestion(context, id) {
       a.post(`/questions/${id}/upvote`, {
@@ -72,7 +100,7 @@ export default new Vuex.Store({
     },
     downvoteQuestion(context, id) {
       console.log(`wew`);
-      
+
       a.post(`/questions/${id}/downvote`, {
         userId: localStorage.id
       }, {
@@ -94,17 +122,63 @@ export default new Vuex.Store({
     addQuestion(context, data) {
       a.post(`/questions`, {
         title: data.title,
-        description: data.description
+        description: data.description,
+        userId: data.userId
       }, {
+          headers: {
+            token: localStorage.token
+          }
+        }).then((result) => {
+          context.commit(`addQuestion`, result.data)
+        }).catch((err) => {
+          console.log(err);
+
+        });
+    },
+    deleteQuestion(context, questionId) {
+      a.delete(`/questions/${questionId}`, {
         headers: {
           token: localStorage.token
         }
       }).then((result) => {
-        context.commit(`addQuestion`, result.data)
+        context.commit(`deleteQuestion`, result.data._id)
       }).catch((err) => {
         console.log(err);
-        
+
       });
+    },
+    editQuestion(context, data) {
+      a.put(`/questions/${data.questionId}`, {
+        title: data.title,
+        description: data.description
+      }, {
+          headers: {
+            token: localStorage.token
+          }
+        }).then((result) => {
+          context.commit(`editQuestion`, result.data)
+
+        }).catch((err) => {
+          console.log(err);
+
+        });
+
+    },
+    editAnswer(context, data) {
+      a.put(`/answers/${data.id}`, {
+        title: data.title
+      }, {
+          headers: {
+            token: localStorage.token
+          }
+        }).then((result) => {
+          context.commit(`editAnswer`, result.data)
+
+        }).catch((err) => {
+          console.log(err.data);
+
+        });
+
     }
   }
 })

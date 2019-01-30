@@ -64,7 +64,8 @@ export default {
     createQuestion() {
       this.$store.dispatch(`addQuestion`, {
         title: this.formData.title,
-        description: this.formData.description
+        description: this.formData.description,
+        userId: localStorage.id
       })
       this.dialog = false
     }

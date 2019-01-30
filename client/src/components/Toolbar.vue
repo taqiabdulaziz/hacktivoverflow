@@ -19,7 +19,7 @@ export default {
       this.$router.replace(`/login`);
     },
     toHome() {
-      this.$router.replace(`/`);
+      this.$router.replace(`/discussion`);
     }
   }
 };

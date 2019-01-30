@@ -3,7 +3,7 @@
     <Toolbar/>
     <v-container grid-list-xl>
       <v-layout row wrap>
-        <v-flex xs3 style="margin-top: 0px">
+        <v-flex xs3 style="margin-top: 0px; padding: 18px">
           <v-btn
             style="margin-bottom: 4vh"
             block
@@ -11,33 +11,43 @@
             @click="openQuestionForm"
           >Start a Question</v-btn>
           <v-container grid-list-xs>
-            <v-layout row wrap style="margin-bottom: 3vh">
+            <v-layout
+              row
+              wrap
+              style="margin-bottom: 3vh"
+              class="menu"
+              @click="navigate('discussion')"
+            >
               <v-icon>home</v-icon>
-              <h4 class="font-weight-regular" style="margin-left:2vh">All Discussion</h4>
+              <h4 class="menutitle font-weight-regular" style="margin-left:2vh">All Discussion</h4>
             </v-layout>
-            <v-layout row wrap style="margin-bottom: 3vh">
-              <v-icon>bookmark</v-icon>
-              <h4 class="font-weight-regular" style="margin-left:2vh">Tags</h4>
-            </v-layout>
-            <v-layout row wrap style="margin-bottom: 3vh">
+            
+            <v-layout
+              row
+              wrap
+              style="margin-bottom: 3vh"
+              class="menu"
+              @click="navigate('myquestions')"
+            >
               <v-icon>question_answer</v-icon>
-              <h4 class="font-weight-regular" style="margin-left:2vh">My Questions</h4>
+              <h4 class="menutitle font-weight-regular" style="margin-left:2vh">My Questions</h4>
             </v-layout>
-            <v-layout row wrap style="margin-bottom: 3vh">
+            <v-layout
+              row
+              wrap
+              style="margin-bottom: 3vh"
+              class="menu"
+              @click="navigate('myanswers')"
+            >
               <v-icon>chat</v-icon>
-              <h4 class="font-weight-regular" style="margin-left:2vh">My Answers</h4>
+              <h4 class="menutitle font-weight-regular" style="margin-left:2vh">My Answers</h4>
             </v-layout>
-            <v-layout row wrap style="margin-bottom: 3vh">
-              <v-icon>people</v-icon>
-              <h4 class="font-weight-regular" style="margin-left:2vh">People</h4>
-            </v-layout>
-            <hr>
           </v-container>
         </v-flex>
         <v-flex xs9>
-          <!-- <v-card style="height: 80vh"> -->
+          <transition name="fade" mode="out-in">
             <router-view></router-view>
-          <!-- </v-card> -->
+          </transition>
         </v-flex>
       </v-layout>
     </v-container>
@@ -67,6 +77,9 @@ export default {
     closeQuestionForm() {
       this.questionFormDialog = false;
     },
+    navigate(routeName) {
+      this.$router.replace(`/${routeName}`);
+    }
   },
   created() {
     a.get(`/questions`, {
@@ -80,6 +93,15 @@ export default {
       .catch(err => {
         console.log(err);
       });
+      a.get(`/answers/myanswer/${localStorage.id}`, {
+        headers : {
+          token: localStorage.token
+        }
+      }).then((result) => {
+        this.$store.dispatch("fetchMyAnswer", result.data)
+      }).catch((err) => {
+        
+      });
   },
   beforeCreate() {
     if (!localStorage.token) {
@@ -92,5 +114,13 @@ export default {
 <style>
 #questioncard:hover {
   cursor: pointer;
+}
+
+.menu:hover {
+  cursor: pointer;
+}
+
+.menutitle:hover {
+  color: #fb8c00;
 }
 </style>

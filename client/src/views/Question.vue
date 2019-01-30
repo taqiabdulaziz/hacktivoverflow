@@ -33,7 +33,7 @@
           <v-card
             v-for="(answer, index) in answerData"
             :key="index"
-            style="padding: 2vh; width: 70%"
+            style="padding: 2vh; width: 70%; margin: 2vh"
           >
             <v-layout row wrap align-center>
               <v-flex text-sm-center>

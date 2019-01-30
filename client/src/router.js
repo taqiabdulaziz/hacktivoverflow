@@ -17,6 +17,14 @@ export default new Router({
         {
           path: `/discussion`,
           component: () => import(`./views/Home/Discussion.vue`)
+        },
+        {
+          path: `/myquestions`,
+          component: () => import(`./views/Home/MyQuestion.vue`)
+        },
+        {
+          path: `/myanswers`,
+          component: () => import(`./views/Home/MyAnswer.vue`)
         }
       ]
     },

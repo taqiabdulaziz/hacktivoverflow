@@ -26,6 +26,7 @@ module.exports = {
         Question.create({
             title: req.body.title,
             description: req.body.description,
+            userId: req.body.userId
         }).then((result) => {
             res.status(201).json(result)
         }).catch((err) => {
@@ -95,11 +96,35 @@ module.exports = {
             .then((result) => {
                 res.status(200).json(result)
             }).catch((err) => {
-                res.status(500).json({msg: `internal server error`, err: err})
+                res.status(500).json({ msg: `internal server error`, err: err })
             });
     },
     findAnswer: function (req, res) {
         Answer.find({ question: req.params.questionId }).populate(`userId`).populate(`question`)
+            .then((result) => {
+                res.status(200).json(result)
+            }).catch((err) => {
+                res.status(500).json({ msg: `internal server error`, err: err })
+            });
+    },
+    findMyQuestions: function (req, res) {
+        //
+    },
+    delete: function (req, res) {
+        Question.findOneAndDelete({
+            _id: req.params.questionId
+        }).then((result) => {
+            res.status(200).json(result)
+        }).catch((err) => {
+            res.status(500).json({ msg: `internal server error`, err: err })
+        });
+    },
+    update: function (req, res) {
+        Question.findOneAndUpdate({
+            _id: req.params.questionId
+        }, req.body, {
+            new: true
+        })
             .then((result) => {
                 res.status(200).json(result)
             }).catch((err) => {

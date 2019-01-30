@@ -65,4 +65,26 @@ module.exports = {
             res.status(401).json({ msg: err })
         });
     },
+    update: function (req, res) {
+        Answer.findOneAndUpdate({
+            _id: req.params.answerId
+        }, {
+                title: req.body.title
+            }, {
+                new: true
+            }).then((result) => {
+                res.status(200).json(result)
+            }).catch((err) => {
+                res.status(500).json({ msg: `internal server error`, err: err })
+            });
+    },
+    findMyAnswer: function (req, res) {
+        Answer.find({
+            userId: req.params.userId
+        }).then((result) => {
+            res.send(result)
+        }).catch((err) => {
+            res.send(err)
+        });
+    }
 };

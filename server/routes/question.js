@@ -8,5 +8,7 @@ router.post(`/:questionId/downvote`, questionController.downvote)
 router.get(`/`, questionController.findAll)
 router.get(`/:questionId`, questionController.findOne)
 router.get(`/answer/:questionId`, questionController.findAnswer)
+router.delete(`/:questionId`, questionController.delete)
+router.put(`/:questionId`, questionController.update)
 
 module.exports = router;
