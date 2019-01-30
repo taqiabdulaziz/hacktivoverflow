@@ -50,7 +50,7 @@
 export default {
   props: [`dialog`],
   components: {
-    wysiwyg: vueWysiwyg.default.component
+
   },
   data() {
     return {

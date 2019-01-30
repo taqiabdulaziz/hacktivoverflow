@@ -5,6 +5,8 @@ import router from './router'
 import store from './store'
 
 Vue.config.productionTip = false
+import wysiwyg from "vue-wysiwyg";
+Vue.use(wysiwyg, {});
 
 new Vue({
   router,

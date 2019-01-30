@@ -53,7 +53,8 @@
         <h3 style="margin-bottom: 2vh">Reply</h3>
         <v-card style="width: 70%; padding: 5vh">
           <v-form ref="form" v-model="valid" lazy-validation>
-            <v-textarea outline name="input-7-4" v-model="replyForm"></v-textarea>
+            <wysiwyg v-model="replyForm"/>
+            <!-- <v-textarea outline name="input-7-4" v-model="replyForm"></v-textarea> -->
             <v-btn :disabled="!valid" color="warning" @click="reply">Reply</v-btn>
           </v-form>
         </v-card>
@@ -68,7 +69,8 @@ import Toolbar from "../components/Toolbar";
 import a from "../helpers/axios";
 export default {
   components: {
-    Toolbar
+    Toolbar,
+    // wysiwyg: vueWysiwyg.default.component
   },
   data() {
     return {
@@ -171,6 +173,7 @@ export default {
 </script>
 
 <style>
+@import "~vue-wysiwyg/dist/vueWysiwyg.css";
 .vote:hover {
   cursor: pointer;
 }

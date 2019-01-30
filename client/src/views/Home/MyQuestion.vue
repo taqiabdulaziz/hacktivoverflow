@@ -39,13 +39,14 @@
                   ></v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                  <v-textarea
+                  <!-- <v-textarea
                     outline
                     name="input-7-4"
                     v-model="editFormValue.description"
                     label="Outline textarea"
                     :value="editFormValue.description"
-                  ></v-textarea>
+                  ></v-textarea> -->
+                  <wysiwyg v-model="editFormValue.description" />
                 </v-flex>
               </v-layout>
             </v-container>
