@@ -22,7 +22,7 @@
               </v-flex>
               <v-flex xs11>
                 <h1 class="font-weight-regular">{{questionData.title}}</h1>
-                <p style="margin-top: 5vh">{{questionData.description}}</p>
+                <p style="margin-top: 5vh" v-html="questionData.description"></p>
               </v-flex>
             </v-layout>
           </v-container>

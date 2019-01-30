@@ -30,12 +30,13 @@
             <v-flex xs6>
               <v-form ref="form" v-model="valid" lazy-validation>
                 <v-text-field v-model="formData.title" label="Title" required></v-text-field>
-                <v-textarea
-                height="50vh"
+                <!-- <v-textarea
+                  height="50vh"
                   outline
                   label="Description"
                   v-model="formData.description"
-                ></v-textarea>
+                ></v-textarea> -->
+                <wysiwyg v-model="formData.description"/>
               </v-form>
             </v-flex>
           </v-layout>
@@ -48,14 +49,17 @@
 <script>
 export default {
   props: [`dialog`],
+  components: {
+    wysiwyg: vueWysiwyg.default.component
+  },
   data() {
     return {
       notifications: false,
       sound: true,
       widgets: false,
       formData: {
-        title: '',
-        description: ''
+        title: "",
+        description: ""
       },
       dialog: false
     };
@@ -66,8 +70,8 @@ export default {
         title: this.formData.title,
         description: this.formData.description,
         userId: localStorage.id
-      })
-      this.dialog = false
+      });
+      this.dialog = false;
     }
   },
   watch: {
