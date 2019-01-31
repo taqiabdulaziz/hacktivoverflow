@@ -23,10 +23,7 @@
                 </v-flex>
                 <v-flex>
                   <v-container grid-list-xs>
-                    <v-layout column wrap>
-                      <h3>0</h3>
-                      <h5>Answer</h5>
-                    </v-layout>
+                    
                   </v-container>
                 </v-flex>
               </v-layout>

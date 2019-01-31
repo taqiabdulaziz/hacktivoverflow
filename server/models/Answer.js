@@ -4,7 +4,7 @@ var Schema = mongoose.Schema
 var AnswerSchema = new Schema({
     userId: {
         type: Schema.Types.ObjectId,
-        ref: "User"
+        ref: 'User'
     },
     title: {
         type: String,

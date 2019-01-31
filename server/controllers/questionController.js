@@ -100,8 +100,11 @@ module.exports = {
             });
     },
     findAnswer: function (req, res) {
-        Answer.find({ question: req.params.questionId }).populate(`userId`).populate(`question`)
+        Answer.find({ question: req.params.questionId }).populate(`question`)
             .then((result) => {
+                console.log(`=================`);
+                
+                console.log(result);
                 res.status(200).json(result)
             }).catch((err) => {
                 res.status(500).json({ msg: `internal server error`, err: err })

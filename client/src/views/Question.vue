@@ -55,7 +55,7 @@
           <v-form ref="form" v-model="valid" lazy-validation>
             <wysiwyg v-model="replyForm"/>
             <!-- <v-textarea outline name="input-7-4" v-model="replyForm"></v-textarea> -->
-            <v-btn :disabled="!valid" color="warning" @click="reply">Reply</v-btn>
+            <v-btn color="warning" @click="reply">Reply</v-btn>
           </v-form>
         </v-card>
       </v-layout>
@@ -165,6 +165,8 @@ export default {
       }
     })
       .then(result => {
+        console.log(result.data);
+        
         this.answerData = result.data;
       })
       .catch(err => {});
