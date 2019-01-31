@@ -45,7 +45,7 @@
                   <v-icon @click="downvoteAnswer(answer._id, index)">thumb_down</v-icon>
                 </v-btn>
               </v-flex>
-              <v-flex xs10>{{answer.title}} | {{answer.userId.email}}</v-flex>
+              <v-flex xs10 v-html="answer.title">| {{answer.userId.email}}</v-flex>
             </v-layout>
           </v-card>
         </v-layout>

@@ -4,7 +4,7 @@
       <v-container grid-list>
         <v-layout column wrap>
           <v-flex xs6>
-            <h3>{{item.title}}</h3>
+            <h3 v-html="item.title"></h3>
           </v-flex>
           <v-layout row wrap>
             <v-flex>
